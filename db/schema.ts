@@ -1,17 +1,32 @@
 import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 
-export const tasks = sqliteTable("tasks", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  title: text("name").notNull(),
-  description: text("description"),
-  list_id: integer("list_id")
-    .notNull()
-    .references(() => lists.id),
-});
-
-export const lists = sqliteTable("lists", {
+export const income_category = sqliteTable("income_category", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   name: text("name").notNull(),
 });
+export const expense_category = sqliteTable("expense_category", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  name: text("name").notNull(),
+});
+export const income = sqliteTable("income", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  amount: integer("amount").notNull(),
+  date: text("date").notNull(),
+  category_id: integer("category_id")
+    .notNull()
+    .references(() => income_category.id),
+});
+export const expense = sqliteTable("expense", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  amount: integer("amount").notNull(),
+  date: text("date").notNull(),
+  category_id: integer("category_id")
+    .notNull()
+    .references(() => expense_category.id),
+});
 
-export type Task = typeof tasks.$inferSelect;
+export type IncomeCategory = typeof income_category.$inferSelect;
+export type ExpenseCategory = typeof expense_category.$inferSelect;
+
+export type Income = typeof income.$inferSelect;
+export type Expense = typeof expense.$inferSelect;

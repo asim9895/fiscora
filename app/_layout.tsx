@@ -16,7 +16,6 @@ import { drizzle } from "drizzle-orm/expo-sqlite";
 import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
 import migrations from "@/drizzle/migrations";
 import { useDrizzleStudio } from "expo-drizzle-studio-plugin";
-import { addDummyData } from "@/db/dummyData";
 import { database_name } from "../constants";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -69,20 +68,20 @@ function MainApp({ loaded }: { loaded: boolean }) {
 
   console.log(success, error);
   return (
-    <Suspense fallback={<ActivityIndicator size={"large"} />}>
-      <SQLiteProvider
-        databaseName={database_name}
-        options={{ enableChangeListener: true }}
-        useSuspense
-      >
-        <Stack>
-          <Stack.Screen
-            name="index"
-            options={{ headerShown: false, animation: "simple_push" }}
-          />
-        </Stack>
-      </SQLiteProvider>
-    </Suspense>
+    <Stack>
+      <Stack.Screen
+        name="index"
+        options={{ headerShown: false, animation: "simple_push" }}
+      />
+      <Stack.Screen
+        name="(tabs)"
+        options={{ headerShown: false, animation: "simple_push" }}
+      />
+      <Stack.Screen
+        name="setup-profile"
+        options={{ headerShown: false, animation: "simple_push" }}
+      />
+    </Stack>
   );
 }
 
@@ -90,10 +89,18 @@ export default function RootLayout() {
   const [loaded] = useFonts(fonts);
 
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <MainApp loaded={loaded} />
-      </PersistGate>
-    </Provider>
+    <Suspense fallback={<ActivityIndicator size={"large"} />}>
+      <SQLiteProvider
+        databaseName={database_name}
+        options={{ enableChangeListener: true }}
+        useSuspense
+      >
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <MainApp loaded={loaded} />
+          </PersistGate>
+        </Provider>
+      </SQLiteProvider>
+    </Suspense>
   );
 }

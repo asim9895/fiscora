@@ -26,14 +26,14 @@ export const light: Colors = {
 };
 
 export const dark: Colors = {
-  background: "#191818",
+  background: "#0d0d0c",
   text: "#dddddd",
   error: "crimson",
-  foreground: "#222223",
+  foreground: "#181918",
   light_gray: "#868686",
-  button: "#539be9",
+  button: "#ffffff",
   text_white: "#ffffff",
-  text_black: "#000000",
+  text_black: "#151414",
   icon_color: "#868686",
   green: "green",
 };
